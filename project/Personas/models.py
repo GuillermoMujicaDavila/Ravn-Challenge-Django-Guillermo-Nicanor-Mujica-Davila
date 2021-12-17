@@ -1,10 +1,11 @@
 from django.db import models
 from django.db.models.base import ModelState
-from django.db.models.deletion import CASCADE
+from django.db.models.deletion import CASCADE, SET_DEFAULT
 
 # Create your models here.
 
-class Person(models.Model):
+#Modelo de Persona
+class PersonModel(models.Model):
     personId = models.AutoField(
         primary_key=True,null=False,unique= True,db_column = 'id'
     )    
@@ -26,13 +27,17 @@ class Person(models.Model):
     personType = models.CharField(
         max_length=50, null=False,db_column='Tipo'        
     )
-    
-class Vehicles(models.Model):
+    personHouse = models.CharField(
+        max_length=200, null=False,db_column='Casa', default='Perú'
+    )
+
+#Modelo de Vehiculo
+class VehiclesModel(models.Model):
     vehiclesId = models.AutoField(
         primary_key=True,null=False,db_column='id'
     )
     vehiclesName = models.CharField(
         max_length=100,null=True,db_column='Nombre'
     )
-    personID = models.ForeignKey(Person,on_delete=CASCADE
+    personID = models.ForeignKey(PersonModel,on_delete=SET_DEFAULT,default=0
     )
